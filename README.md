@@ -41,13 +41,13 @@ into this:
 ## Install
 
 ```
-npm install --save-dev render-props-compose
+npm install --save render-props-compose
 ```
 
 or using yarn:
 
 ```
-yarn add --dev render-props-compose
+yarn add render-props-compose
 ```
 
 ## Usage
