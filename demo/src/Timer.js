@@ -42,6 +42,6 @@ export default class Timer extends Component {
 
   render() {
     const { ticks } = this.state;
-    return this.props.children({ ticks, reset: this.reset });
+    return this.props.render({ ticks, reset: this.reset });
   }
 }

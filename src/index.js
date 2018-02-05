@@ -5,17 +5,22 @@ const process = (component, ...args) =>
     ? React.cloneElement
     : React.createElement)(component, ...args);
 
-export const composed = components => ({ children }) =>
-  components.reduceRight(
-    (memo, component) => (...propsList) =>
-      process(component, {
-        children: props => memo(...propsList.concat(props)),
-      }),
-    (...propsList) => children(...propsList)
-  )();
+export function composed(components, { renderPropName = 'children' } = {}) {
+  function Composed(props) {
+    const render = props.children || props.render;
+    return components.reduceRight(
+      (memo, component) => (...propsList) =>
+        process(component, {
+          [renderPropName]: props => memo(...propsList.concat(props)),
+        }),
+      (...propsList) => render(...propsList)
+    )();
+  }
+  return Composed;
+}
 
-export const Composed = ({ components, ...props }) =>
-  composed(components)(props);
+export const Composed = ({ components, renderPropName, ...props }) =>
+  composed(components, { renderPropName })(props);
 
 // Default export for the UMD build
 export default { composed, Composed };

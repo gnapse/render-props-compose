@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const style = {
   width: '500px',
-  height: '500px',
+  height: '300px',
   border: '1px dotted black',
   margin: '10px',
   padding: '10px',
@@ -16,9 +16,10 @@ export default class Mouse extends Component {
   };
 
   render() {
+    const render = this.props.children || this.props.render;
     return (
       <div style={style} onMouseMove={this.onMouseMove}>
-        {this.props.children(this.state)}
+        {render(this.state)}
       </div>
     );
   }

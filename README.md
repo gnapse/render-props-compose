@@ -95,3 +95,42 @@ For instance, in the following example the timer is initialized with an interval
   )}
 </Composed>
 ```
+
+### Customize the render prop name
+
+This library works by default with the render prop passed as `children`, allowing you to nest the render prop within the opening and closing tags. You can customize what name to use by passing the `renderPropName` option. For instance, to allow it to work with the render prop passed as `render`, you can do the following:
+
+```javascript
+// Using the Composed component
+const App = () => (
+  <Composed
+    renderPropName="render"
+    components={[Counter, Timer, Mouse]}
+  >
+    {(counterProps, timerProps, mouseProps) => (
+      <YourComponent
+        {...counterProps}
+        {...timerProps}
+        {...mouseProps}
+      />
+    )}
+  </Composed>
+)
+
+// Using the composed function
+const CounterAndTimer = composed([Counter, Timer], { renderPropName: 'render'});
+
+const App = () => (
+  <CounterAndTimer
+    renderPropName="render"
+    render={(counter, timer) => (
+      <YourComponent
+        {...counter}
+        {...timer}
+      />
+    )}
+  />
+);
+```
+
+Regardless of the `renderPropName`, the `Composed` component supports receiving its render prop function via `render` (preferred) or `children`, if `render` is not provided. This feature is only to support composing components that do not support the default approach of passing the render prop as `children`.
