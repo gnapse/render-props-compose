@@ -5,37 +5,41 @@ This library makes it possible to combine `n` nested render-props components, ea
 Using this library you can turn this:
 
 ```javascript
-<Counter>
-  {counterProps => (
-    <Timer>
-      {timerProps => (
-        <Mouse>
-          {mouseProps => (
-            <YourComponent
-              {...counterProps}
-              {...timerProps}
-              {...mouseProps}
-            />
-          )}
-        </Mouse>
-      )}
-    </Timer>
-  )}
-</Counter>
+const App = () => (
+  <Counter>
+    {counterProps => (
+      <Timer>
+        {timerProps => (
+          <Mouse>
+            {mouseProps => (
+              <YourComponent
+                {...counterProps}
+                {...timerProps}
+                {...mouseProps}
+              />
+            )}
+          </Mouse>
+        )}
+      </Timer>
+    )}
+  </Counter>
+)
 ```
 
 into this:
 
 ```javascript
-<Composed components={[Counter, Timer, Mouse]}>
-  {(counterProps, timerProps, mouseProps) => (
-    <YourComponent
-      {...counterProps}
-      {...timerProps}
-      {...mouseProps}
-    />
-  )}
-</Composed>
+const App = () => (
+  <Composed components={[Counter, Timer, Mouse]}>
+    {(counterProps, timerProps, mouseProps) => (
+      <YourComponent
+        {...counterProps}
+        {...timerProps}
+        {...mouseProps}
+      />
+    )}
+  </Composed>
+)
 ```
 
 ## Install
@@ -106,15 +110,14 @@ const App = () => (
   <Composed
     renderPropName="render"
     components={[Counter, Timer, Mouse]}
-  >
-    {(counterProps, timerProps, mouseProps) => (
+    render={(counterProps, timerProps, mouseProps) => (
       <YourComponent
         {...counterProps}
         {...timerProps}
         {...mouseProps}
       />
     )}
-  </Composed>
+  />
 )
 
 // Using the composed function
@@ -132,5 +135,3 @@ const App = () => (
   />
 );
 ```
-
-Regardless of the `renderPropName`, the `Composed` component supports receiving its render prop function via `render` (preferred) or `children`, if `render` is not provided. This feature is only to support composing components that do not support the default approach of passing the render prop as `children`.
