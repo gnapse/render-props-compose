@@ -5,37 +5,41 @@ This library makes it possible to combine `n` nested render-props components, ea
 Using this library you can turn this:
 
 ```javascript
-<Counter>
-  {counterProps => (
-    <Timer>
-      {timerProps => (
-        <Mouse>
-          {mouseProps => (
-            <YourComponent
-              {...counterProps}
-              {...timerProps}
-              {...mouseProps}
-            />
-          )}
-        </Mouse>
-      )}
-    </Timer>
-  )}
-</Counter>
+const App = () => (
+  <Counter>
+    {counterProps => (
+      <Timer>
+        {timerProps => (
+          <Mouse>
+            {mouseProps => (
+              <YourComponent
+                {...counterProps}
+                {...timerProps}
+                {...mouseProps}
+              />
+            )}
+          </Mouse>
+        )}
+      </Timer>
+    )}
+  </Counter>
+)
 ```
 
 into this:
 
 ```javascript
-<Composed components={[Counter, Timer, Mouse]}>
-  {(counterProps, timerProps, mouseProps) => (
-    <YourComponent
-      {...counterProps}
-      {...timerProps}
-      {...mouseProps}
-    />
-  )}
-</Composed>
+const App = () => (
+  <Composed components={[Counter, Timer, Mouse]}>
+    {(counterProps, timerProps, mouseProps) => (
+      <YourComponent
+        {...counterProps}
+        {...timerProps}
+        {...mouseProps}
+      />
+    )}
+  </Composed>
+)
 ```
 
 ## Install
@@ -94,4 +98,40 @@ For instance, in the following example the timer is initialized with an interval
     />
   )}
 </Composed>
+```
+
+### Customize the render prop name
+
+This library works by default with the render prop passed as `children`, allowing you to nest the render prop within the opening and closing tags. You can customize what name to use by passing the `renderPropName` option. For instance, to allow it to work with the render prop passed as `render`, you can do the following:
+
+```javascript
+// Using the Composed component
+const App = () => (
+  <Composed
+    renderPropName="render"
+    components={[Counter, Timer, Mouse]}
+    render={(counterProps, timerProps, mouseProps) => (
+      <YourComponent
+        {...counterProps}
+        {...timerProps}
+        {...mouseProps}
+      />
+    )}
+  />
+)
+
+// Using the composed function
+const CounterAndTimer = composed([Counter, Timer], { renderPropName: 'render'});
+
+const App = () => (
+  <CounterAndTimer
+    renderPropName="render"
+    render={(counter, timer) => (
+      <YourComponent
+        {...counter}
+        {...timer}
+      />
+    )}
+  />
+);
 ```
