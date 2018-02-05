@@ -42,6 +42,10 @@ const App = () => (
 )
 ```
 
+## Demo
+
+This repository includes a demo app, which you can run with the command `npm run start` or `yarn start`. You can also see the same demo running live [here](https://codesandbox.io/s/04w609rvz0).
+
 ## Install
 
 ```
