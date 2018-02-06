@@ -8,13 +8,18 @@ const process = (component, ...args) =>
 export function composed(components, { renderPropName = 'children' } = {}) {
   function Composed(props) {
     const render = props.children || props.render;
-    return components.reduceRight(
-      (memo, component) => (...propsList) =>
-        process(component, {
-          [renderPropName]: props => memo(...propsList.concat(props)),
-        }),
-      (...propsList) => render(...propsList)
-    )();
+    const isArray = Array.isArray(components);
+    const list = isArray ? components : Object.keys(components);
+    const reducer = isArray
+      ? (memo, component) => (...propsList) =>
+          process(component, {
+            [renderPropName]: props => memo(...propsList.concat(props)),
+          })
+      : (memo, key) => allProps =>
+          process(components[key], {
+            [renderPropName]: props => memo({ ...allProps, [key]: props }),
+          });
+    return list.reduceRight(reducer, render)();
   }
   return Composed;
 }

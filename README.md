@@ -86,6 +86,24 @@ const App = () => (
 )
 ```
 
+### Receiving named props
+
+It might be preferrable to receive the combined props in a single object, instead of as a list of positional arguments to the render prop function. You can achieve this by passing the components to compose in an object with the keys that correspond to them in the resulting combined props:
+
+```javascript
+const App = () => (
+  <Composed
+    components={{
+      mouse: Mouse,
+      timer: Timer,
+      counter: Counter,
+    }}
+  >
+    {({ mouse, timer, counter }) => ( ... )}
+  </Composed>
+)
+```
+
 ### Passing props to composed components
 
 You can pass props to the composed components by referencing them as a React element, instead of just passing the reference to the component.
