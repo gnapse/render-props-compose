@@ -23,7 +23,7 @@ const App = () => (
       </Timer>
     )}
   </Counter>
-)
+);
 ```
 
 into this:
@@ -39,7 +39,7 @@ const App = () => (
       />
     )}
   </Composed>
-)
+);
 ```
 
 ## Demo
@@ -69,7 +69,7 @@ const App = () => (
   <Composed components={[Mouse, Timer]}>
     {(mouse, timer) => ( ... )}
   </Composed>
-)
+);
 ```
 
 You can also create an enhanced component using the `composed` function export:
@@ -83,7 +83,7 @@ const App = () => (
   <CounterWithTimer>
     {(counter, timer) => ( ... )}
   </CounterWithTimer>
-)
+);
 ```
 
 ### Receiving named props
@@ -101,7 +101,16 @@ const App = () => (
   >
     {({ mouse, timer, counter }) => ( ... )}
   </Composed>
-)
+);
+
+// Using the composed function
+const CounterAndTimer = composed({ myCounter: Counter, timer: Timer });
+
+const App = () => (
+  <CounterAndTimer
+    render={({ myCounter, timer }) => ( ... )>}
+  />
+);
 ```
 
 ### Passing props to composed components
@@ -111,15 +120,17 @@ You can pass props to the composed components by referencing them as a React ele
 For instance, in the following example the timer is initialized with an interval of 1500 milliseconds:
 
 ```javascript
-<Composed components={[Counter, <Timer interval={1500} />, Mouse]}>
-  {(counterProps, timerProps, mouseProps) => (
-    <YourComponent
-      {...counterProps}
-      {...timerProps}
-      {...mouseProps}
-    />
-  )}
-</Composed>
+const App = () => (
+  <Composed components={[Counter, <Timer interval={1500} />, Mouse]}>
+    {(counterProps, timerProps, mouseProps) => (
+      <YourComponent
+        {...counterProps}
+        {...timerProps}
+        {...mouseProps}
+      />
+    )}
+  </Composed>
+);
 ```
 
 ### Customize the render prop name
@@ -140,14 +151,13 @@ const App = () => (
       />
     )}
   />
-)
+);
 
 // Using the composed function
-const CounterAndTimer = composed([Counter, Timer], { renderPropName: 'render'});
+const CounterAndTimer = composed([Counter, Timer], { renderPropName: 'render' });
 
 const App = () => (
   <CounterAndTimer
-    renderPropName="render"
     render={(counter, timer) => (
       <YourComponent
         {...counter}
