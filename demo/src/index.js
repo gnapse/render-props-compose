@@ -11,14 +11,14 @@ import { CounterView, TimerView } from './views';
 const Demo = () => (
   <Fragment>
     <Composed
-      components={[
-        Counter,
-        <Counter initialValue={11} />,
-        Mouse,
-      ]}
-      render={(counter1, counter2, mouse) => (
+      components={{
+        counter1: Counter,
+        counter2: <Counter initialValue={11} />,
+        mouse: Mouse,
+      }}
+      render={({ counter1, counter2, mouse }) => (
         <Fragment>
-          <h1>Using "children" as render prop</h1>
+          <h1>Using named props and "children" as render prop</h1>
           <h3>
             Mouse is at ({mouse.x}, {mouse.y})
           </h3>
@@ -38,7 +38,7 @@ const Demo = () => (
     >
       {(fast, normal, slow, mouse) => (
         <Fragment>
-          <h1>Using "render" as render prop</h1>
+          <h1>Using positional props and "render" as render prop</h1>
           <h3>
             Mouse is at ({mouse.x}, {mouse.y})
           </h3>
