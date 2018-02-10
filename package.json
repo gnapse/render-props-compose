@@ -16,14 +16,26 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "prepush": "yarn test",
+    "precommit": "lint-staged",
+    "prettier": "prettier --write {src,demo,tests}/**/*.js"
+  },
+  "lint-staged": {
+    "{src,demo,tests}/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {},
   "peerDependencies": {
     "react": "16.x"
   },
   "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0",
     "nwb": "0.21.x",
+    "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },

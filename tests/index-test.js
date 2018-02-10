@@ -16,7 +16,7 @@ const ComposedApp = () => (
       </Fragment>
     )}
   </Composed>
-)
+);
 
 describe('Composed', () => {
   let node;
