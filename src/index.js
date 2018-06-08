@@ -7,7 +7,10 @@ const process = (component, ...args) =>
 
 export function composed(components, { renderPropName = 'children' } = {}) {
   function Composed(props) {
-    const render = props.children || props.render;
+    const children = props.children instanceof Array
+      ? props.children[0]
+      : props.children
+    const render = children || props.render;
     const isArray = Array.isArray(components);
     const list = isArray ? components : Object.keys(components);
     const reducer = isArray
